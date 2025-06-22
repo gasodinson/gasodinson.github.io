@@ -1,4 +1,4 @@
-const API_TOKEN = "Token rLJZ2pkP7mYepXOd3qSy6DDjOwLEHoSG"; 
+const API_TOKEN = "rLJZ2pkP7mYepXOd3qSy6DDjOwLEHoSG"; 
 const DATABASE_ID = "243621"; 
 const TABLE_ID = "580424"; 
 
@@ -20,7 +20,7 @@ document.getElementById("formPropietario").addEventListener("submit", function (
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      "field_4675567": idPropietario,  // ✔ ahora sí está correcto
+      "field_4675567": idPropietario,
       "field_4675568": nombre,
       "field_4675569": domicilio,
       "field_4675570": telefono,
