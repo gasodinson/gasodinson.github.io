@@ -1,4 +1,4 @@
-const API_TOKEN = "rLJZ2pkP7mYepXOd3qSy6DDjOwLEHoSG"; 
+const API_TOKEN = "WWwHg03JkIGjxAzIMppFEMr73zYDX2Up"; 
 const DATABASE_ID = "243621"; 
 const TABLE_ID = "580424"; 
 
