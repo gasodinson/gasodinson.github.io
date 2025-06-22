@@ -20,11 +20,11 @@ document.getElementById("formPropietario").addEventListener("submit", function (
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      "4675567": idPropietario,   // Reemplazar "field_X" con el ID real de cada campo
-      "4675568": nombre,
-      "4675569": domicilio,
-      "4675570": telefono,
-      "4675571": email,
+      "field_4675567": idPropietario,   // Reemplazar "field_X" con el ID real de cada campo
+      "field_4675568": nombre,
+      "field_4675569": domicilio,
+      "field_4675570": telefono,
+      "field_4675571": email,
     }),
   })
     .then((response) => response.json())
