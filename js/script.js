@@ -1,6 +1,6 @@
-const API_TOKEN = "rLJZ2pkP7mYepXOd3qSy6DDjOwLEHoSG"; // Reemplazar por tu token de Baserow
-const DATABASE_ID = "243621"; // Reemplazar por el ID de tu base
-const TABLE_ID = "580424"; // Reemplazar por el ID de la tabla "Propietarios"
+const API_TOKEN = "rLJZ2pkP7mYepXOd3qSy6DDjOwLEHoSG"; 
+const DATABASE_ID = "243621"; 
+const TABLE_ID = "580424"; 
 
 const API_URL = `https://api.baserow.io/api/database/rows/table/${TABLE_ID}/`;
 
@@ -20,7 +20,7 @@ document.getElementById("formPropietario").addEventListener("submit", function (
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      "field_4675567": idPropietario,   // Reemplazar "field_X" con el ID real de cada campo
+      "field_4675567": idPropietario,  // ✔ ahora sí está correcto
       "field_4675568": nombre,
       "field_4675569": domicilio,
       "field_4675570": telefono,
