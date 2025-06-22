@@ -16,7 +16,7 @@ document.getElementById("formPropietario").addEventListener("submit", function (
   fetch(API_URL, {
     method: "POST",
     headers: {
-      "Authorization": `Token ${API_TOKEN}`,
+      "Authorization": "${API_TOKEN}",
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
