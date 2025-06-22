@@ -2,8 +2,7 @@ const API_TOKEN = "rLJZ2pkP7mYepXOd3qSy6DDjOwLEHoSG";
 const DATABASE_ID = "243621"; 
 const TABLE_ID = "580424"; 
 
-//const API_URL = `https://api.baserow.io/api/database/rows/table/${TABLE_ID}/`;
-const API_URL = "https://api.baserow.io/api/database/rows/table/${580424}/";
+const API_URL = `https://api.baserow.io/api/database/rows/table/${TABLE_ID}/`;
 
 document.getElementById("formPropietario").addEventListener("submit", function (e) {
   e.preventDefault();
@@ -17,12 +16,11 @@ document.getElementById("formPropietario").addEventListener("submit", function (
   fetch(API_URL, {
     method: "POST",
     headers: {
-      //"Authorization": `Token ${API_TOKEN}`,
-      "Authorization": "Token rLJZ2pkP7mYepXOd3qSy6DDjOwLEHoSG",
+      "Authorization": `Token ${API_TOKEN}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      "field_4675567": idPropietario,  // ✔ ahora sí está correcto
+      "field_4675567": idPropietario,
       "field_4675568": nombre,
       "field_4675569": domicilio,
       "field_4675570": telefono,
