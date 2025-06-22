@@ -1,0 +1,39 @@
+const API_TOKEN = "rLJZ2pkP7mYepXOd3qSy6DDjOwLEHoSG"; // Reemplazar por tu token de Baserow
+const DATABASE_ID = "243621"; // Reemplazar por el ID de tu base
+const TABLE_ID = "580424"; // Reemplazar por el ID de la tabla "Propietarios"
+
+const API_URL = `https://api.baserow.io/api/database/rows/table/${TABLE_ID}/`;
+
+document.getElementById("formPropietario").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const idPropietario = document.getElementById("idPropietario").value.trim();
+  const nombre = document.getElementById("nombre").value.trim();
+  const domicilio = document.getElementById("domicilio").value.trim();
+  const telefono = document.getElementById("telefono").value.trim();
+  const email = document.getElementById("email").value.trim();
+
+  fetch(API_URL, {
+    method: "POST",
+    headers: {
+      "Authorization": `Token ${API_TOKEN}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      "4675567": idPropietario,   // Reemplazar "field_X" con el ID real de cada campo
+      "4675568": nombre,
+      "4675569": domicilio,
+      "4675570": telefono,
+      "4675571": email,
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      alert("✅ Propietario agregado correctamente.");
+      document.getElementById("formPropietario").reset();
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      alert("❌ Error al agregar el propietario.");
+    });
+});
