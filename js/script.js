@@ -2,7 +2,8 @@ const API_TOKEN = "rLJZ2pkP7mYepXOd3qSy6DDjOwLEHoSG";
 const DATABASE_ID = "243621"; 
 const TABLE_ID = "580424"; 
 
-const API_URL = `https://api.baserow.io/api/database/rows/table/${TABLE_ID}/`;
+//const API_URL = `https://api.baserow.io/api/database/rows/table/${TABLE_ID}/`;
+const API_URL = "https://api.baserow.io/api/database/rows/table/${580424}/";
 
 document.getElementById("formPropietario").addEventListener("submit", function (e) {
   e.preventDefault();
@@ -16,7 +17,8 @@ document.getElementById("formPropietario").addEventListener("submit", function (
   fetch(API_URL, {
     method: "POST",
     headers: {
-      "Authorization": "Token ${API_TOKEN}",
+      //"Authorization": `Token ${API_TOKEN}`,
+      "Authorization": "Token rLJZ2pkP7mYepXOd3qSy6DDjOwLEHoSG",
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
