@@ -1,4 +1,4 @@
-const API_TOKEN = "Token rLJZ2pkP7mYepXOd3qSy6DDjOwLEHoSG"; 
+const API_TOKEN = "rLJZ2pkP7mYepXOd3qSy6DDjOwLEHoSG"; 
 const DATABASE_ID = "243621"; 
 const TABLE_ID = "580424"; 
 
@@ -16,7 +16,7 @@ document.getElementById("formPropietario").addEventListener("submit", function (
   fetch(API_URL, {
     method: "POST",
     headers: {
-      "Authorization": "${API_TOKEN}",
+      "Authorization": "Token ${API_TOKEN}",
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
