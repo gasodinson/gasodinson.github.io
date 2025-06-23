@@ -9,7 +9,7 @@ document.getElementById('formularioPropietario').addEventListener('submit', asyn
 });
 
 async function buscarPropietario() {
-  const IDPropietarioBuscado = document.getElementById('IDPropietarioBusqueda').value;
+  const IDPropietarioBuscado = document.getElementById('dniBusqueda').value;
 
   const response = await fetch(`${BASE_URL_PROPIETARIOS}?user_field_names=true`, {
     headers: {
