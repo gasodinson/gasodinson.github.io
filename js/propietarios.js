@@ -2,16 +2,15 @@ const API_TOKEN = "WWwHg03JkIGjxAzIMppFEMr73zYDX2Up";
 const TABLE_ID_PROPIETARIOS = "580424";
 const API_URL_PROPIETARIOS = `https://api.baserow.io/api/database/rows/table/${TABLE_ID_PROPIETARIOS}/`;
 
-// Reemplazar por los field_ID reales de la tabla "Propietarios"
-const FIELD_ID_PROPIETARIO = "field_4675567";
-const FIELD_NOMBRE = "field_4675568";
-const FIELD_DOMICILIO = "field_4675569";
-const FIELD_TELEFONO = "field_4675570";
-const FIELD_EMAIL = "field_4675571";
+const FIELD_ID_PROPIETARIO = "IDPropietario";
+const FIELD_NOMBRE = "Nombre";
+const FIELD_DOMICILIO = "Domicilio";
+const FIELD_TELEFONO = "Telefono";
+const FIELD_EMAIL = "Email";
 
 const TABLE_ID_PACIENTES = "580419";
 const API_URL_PACIENTES = `https://api.baserow.io/api/database/rows/table/${TABLE_ID_PACIENTES}/`;
-const FIELD_PROPIETARIO_PACIENTE = "Propietario"; // Usando nombre del campo con user_field_names=true
+const FIELD_PROPIETARIO_PACIENTE = "Propietario";
 const FIELD_NOMBRE_PACIENTE = "Nombre";
 const FIELD_IDPACIENTE = "IDPaciente";
 
@@ -39,7 +38,7 @@ document.getElementById("formBuscarPropietario").addEventListener("submit", func
       } else {
         const propietario = data.results[0];
         rowIdPropietarioEncontrado = propietario.id;
-        document.getElementById("IDPropietario").value = propietario[FIELD_ID_PROPIETARIO];
+        document.getElementById("IDPropietario").value = propietario[FIELD_ID_PROPIETARIO] || "";
         document.getElementById("Nombre").value = propietario[FIELD_NOMBRE] || "";
         document.getElementById("Domicilio").value = propietario[FIELD_DOMICILIO] || "";
         document.getElementById("Telefono").value = propietario[FIELD_TELEFONO] || "";
