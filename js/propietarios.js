@@ -1,7 +1,7 @@
 // COMPLETAR CON TU INFO REAL
 const BASE_URL_PROPIETARIOS = 'https://api.baserow.io/api/database/rows/table_ID_PROPIETARIOS/';
 const BASE_URL_PACIENTES = 'https://api.baserow.io/api/database/rows/table_ID_PACIENTES/';
-const TOKEN = 'Token TU_TOKEN';
+const TOKEN = 'WWwHg03JkIGjxAzIMppFEMr73zYDX2Up';
 
 document.getElementById('formularioPropietario').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -9,7 +9,7 @@ document.getElementById('formularioPropietario').addEventListener('submit', asyn
 });
 
 async function buscarPropietario() {
-  const dniBuscado = document.getElementById('dniBusqueda').value;
+  const IDPropietarioBuscado = document.getElementById('IDPropietarioBusqueda').value;
 
   const response = await fetch(`${BASE_URL_PROPIETARIOS}?user_field_names=true`, {
     headers: {
@@ -18,34 +18,34 @@ async function buscarPropietario() {
   });
 
   const data = await response.json();
-  const propietario = data.results.find(p => p.DNI === dniBuscado);
+  const propietario = data.results.find(p => p.IDPropietario === IDPropietarioBuscado);
 
   if (propietario) {
-    document.getElementById('dni').value = propietario.DNI;
-    document.getElementById('nombre').value = propietario.Nombre;
-    document.getElementById('telefono').value = propietario.Telefono;
-    document.getElementById('email').value = propietario.Email;
+    document.getElementById('IDPropietario').value = propietario.IDPropietario;
+    document.getElementById('Nombre').value = propietario.Nombre;
+    document.getElementById('Telefono').value = propietario.Telefono;
+    document.getElementById('Email').value = propietario.Email;
     document.getElementById('formularioPropietario').dataset.id = propietario.id;
 
     mostrarMascotas(propietario.id);
   } else {
     alert('Propietario no encontrado. Podés cargarlo como nuevo.');
     document.getElementById('formularioPropietario').reset();
-    document.getElementById('dni').value = dniBuscado;
+    document.getElementById('IDPropietario').value = IDPropietarioBuscado;
     document.getElementById('formularioPropietario').dataset.id = '';
     document.getElementById('mascotasDelPropietario').innerHTML = '';
   }
 }
 
 async function guardarPropietario() {
-  const dni = document.getElementById('dni').value;
-  const nombre = document.getElementById('nombre').value;
-  const telefono = document.getElementById('telefono').value;
-  const email = document.getElementById('email').value;
+  const IDPropietario = document.getElementById('IDPropietario').value;
+  const nombre = document.getElementById('Nombre').value;
+  const telefono = document.getElementById('Telefono').value;
+  const email = document.getElementById('Email').value;
   const idExistente = document.getElementById('formularioPropietario').dataset.id;
 
   const datos = {
-    DNI: dni,
+    IDPropietario: IDPropietario,
     Nombre: nombre,
     Telefono: telefono,
     Email: email
