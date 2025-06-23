@@ -1,4 +1,4 @@
-const API_TOKEN = "WWwHg03JkIGjxAzIMppFEMr73zYDX2Up"; // Token Baserow
+const API_TOKEN = "WWwHg03JkIGjxAzIMppFEMr73zYDX2Up";
 const TABLE_ID_PROPIETARIOS = "580424";
 const API_URL_PROPIETARIOS = `https://api.baserow.io/api/database/rows/table/${TABLE_ID_PROPIETARIOS}/`;
 
@@ -8,6 +8,12 @@ const FIELD_NOMBRE = "field_4675568";
 const FIELD_DOMICILIO = "field_4675569";
 const FIELD_TELEFONO = "field_4675570";
 const FIELD_EMAIL = "field_4675571";
+
+const TABLE_ID_PACIENTES = "580419"; // Reemplazar por ID real
+const API_URL_PACIENTES = `https://api.baserow.io/api/database/rows/table/${TABLE_ID_PACIENTES}/`;
+const FIELD_PROPIETARIO_PACIENTE = "field_4675526"; // ID del campo "Propietario" en tabla Pacientes
+const FIELD_NOMBRE_PACIENTE = "field_4675525"; // ID del campo "Nombre" en tabla Pacientes
+const FIELD_IDPACIENTE = "field_4675524"; // ID del campo "IDPaciente" en tabla Pacientes
 
 let rowIdPropietarioEncontrado = null;
 
@@ -28,6 +34,8 @@ document.getElementById("formBuscarPropietario").addEventListener("submit", func
         rowIdPropietarioEncontrado = null;
         document.getElementById("formPropietario").reset();
         document.getElementById("idPropietario").value = dni;
+        document.getElementById("mascotasPropietario").innerHTML = "";
+        document.getElementById("btnAgregarMascota").style.display = "none";
       } else {
         const propietario = data.results[0];
         rowIdPropietarioEncontrado = propietario.id;
@@ -36,6 +44,8 @@ document.getElementById("formBuscarPropietario").addEventListener("submit", func
         document.getElementById("domicilio").value = propietario[FIELD_DOMICILIO] || "";
         document.getElementById("telefono").value = propietario[FIELD_TELEFONO] || "";
         document.getElementById("email").value = propietario[FIELD_EMAIL] || "";
+
+        mostrarMascotasDelPropietario(dni);
       }
     })
     .catch((error) => {
@@ -81,9 +91,50 @@ document.getElementById("formPropietario").addEventListener("submit", function (
     .then((data) => {
       alert("✅ Propietario guardado/modificado correctamente.");
       rowIdPropietarioEncontrado = data.id;
+      mostrarMascotasDelPropietario(idPropietario);
     })
     .catch((error) => {
       console.error("Error:", error);
       alert("❌ Error al guardar/modificar el propietario.");
     });
 });
+
+function mostrarMascotasDelPropietario(idPropietario) {
+  const contenedor = document.getElementById("mascotasPropietario");
+  contenedor.innerHTML = "<p>Buscando mascotas...</p>";
+
+  const url = `${API_URL_PACIENTES}?filter__${FIELD_PROPIETARIO_PACIENTE}__equal=${idPropietario}`;
+
+  fetch(url, {
+    headers: { "Authorization": `Token ${API_TOKEN}` },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      contenedor.innerHTML = "";
+
+      if (data.count === 0) {
+        contenedor.innerHTML = "<p>Este propietario aún no tiene mascotas registradas.</p>";
+      } else {
+        data.results.forEach((paciente) => {
+          const btn = document.createElement("button");
+          btn.className = "button";
+          btn.textContent = `${paciente[FIELD_NOMBRE_PACIENTE]} (${paciente[FIELD_IDPACIENTE]})`;
+          btn.onclick = () => {
+            window.location.href = `pacientes.html?idPaciente=${paciente.id}`;
+          };
+          contenedor.appendChild(btn);
+        });
+      }
+
+      const btnAgregar = document.getElementById("btnAgregarMascota");
+      btnAgregar.style.display = "inline-block";
+      btnAgregar.onclick = () => {
+        window.location.href = `pacientes.html?nuevo=${idPropietario}`;
+      };
+
+    })
+    .catch((error) => {
+      console.error("Error al buscar mascotas:", error);
+      contenedor.innerHTML = "<p style='color:red;'>❌ Error al buscar mascotas.</p>";
+    });
+}

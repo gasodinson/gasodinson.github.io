@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Veterinaria Sandi - Propietarios</title>
+  <title>Propietarios - Alta/Edición</title>
   <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
@@ -22,7 +22,7 @@
 
     <form id="formPropietario">
       <label for="idPropietario">DNI</label><br>
-      <input type="number" id="idPropietario" name="idPropietario" min="0" step="1" required><br><br>
+      <input type="text" id="idPropietario" name="idPropietario" required><br><br>
 
       <label for="nombre">Nombre y Apellido</label><br>
       <input type="text" id="nombre" name="nombre" required><br><br>
@@ -31,13 +31,21 @@
       <input type="text" id="domicilio" name="domicilio"><br><br>
 
       <label for="telefono">Teléfono</label><br>
-      <input type="tel" id="telefono" name="telefono"><br><br>
+      <input type="text" id="telefono" name="telefono"><br><br>
 
       <label for="email">Email</label><br>
       <input type="email" id="email" name="email"><br><br>
 
       <button class="button" type="submit">Guardar / Modificar Propietario</button>
     </form>
+
+    <hr style="margin:20px 0;">
+
+    <div id="mascotasPropietario">
+      <!-- Aquí se cargarán las mascotas asociadas -->
+    </div>
+
+    <button class="button" id="btnAgregarMascota" style="display:none; margin-top: 15px;">Agregar Mascota</button>
 
     <br>
     <button class="button" onclick="window.location.href='index.html'">Volver al inicio</button>
