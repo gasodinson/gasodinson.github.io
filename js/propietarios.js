@@ -10,7 +10,7 @@ const FIELD_EMAIL = "Email";
 
 const TABLE_ID_PACIENTES = "580419";
 const API_URL_PACIENTES = `https://api.baserow.io/api/database/rows/table/${TABLE_ID_PACIENTES}/`;
-const FIELD_PROPIETARIO_PACIENTE = "field_4675526"; // ID del campo "Propietario" en la tabla Pacientes
+const FIELD_PROPIETARIO_PACIENTE = "field_4675583"; // ID del campo "Propietario" en la tabla Pacientes
 const FIELD_NOMBRE_PACIENTE = "Nombre";
 const FIELD_IDPACIENTE = "IDPaciente";
 
@@ -102,7 +102,7 @@ function mostrarMascotasDelPropietario(propietarioRowID) {
   const contenedor = document.getElementById("mascotasPropietario");
   contenedor.innerHTML = "<p>Buscando mascotas...</p>";
 
-   const url = `${API_URL_PACIENTES}?filter__${FIELD_PROPIETARIO_PACIENTE}__any=${propietarioRowID}`;
+  const url = `${API_URL_PACIENTES}?user_field_names=true&filter__${FIELD_PROPIETARIO_PACIENTE}__contains=${propietarioRowID}`;
 
 
   fetch(url, {
