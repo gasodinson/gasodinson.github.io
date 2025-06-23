@@ -9,11 +9,11 @@ const FIELD_DOMICILIO = "field_4675569";
 const FIELD_TELEFONO = "field_4675570";
 const FIELD_EMAIL = "field_4675571";
 
-const TABLE_ID_PACIENTES = "580419"; // Reemplazar por ID real
+const TABLE_ID_PACIENTES = "580419";
 const API_URL_PACIENTES = `https://api.baserow.io/api/database/rows/table/${TABLE_ID_PACIENTES}/`;
-const FIELD_PROPIETARIO_PACIENTE = "field_4675526"; // ID del campo "Propietario" en tabla Pacientes
-const FIELD_NOMBRE_PACIENTE = "field_4675525"; // ID del campo "Nombre" en tabla Pacientes
-const FIELD_IDPACIENTE = "field_4675524"; // ID del campo "IDPaciente" en tabla Pacientes
+const FIELD_PROPIETARIO_PACIENTE = "Propietario"; // Usando nombre del campo con user_field_names=true
+const FIELD_NOMBRE_PACIENTE = "Nombre";
+const FIELD_IDPACIENTE = "IDPaciente";
 
 let rowIdPropietarioEncontrado = null;
 
@@ -22,7 +22,7 @@ document.getElementById("formBuscarPropietario").addEventListener("submit", func
   const dni = document.getElementById("buscarIdPropietario").value.trim();
   if (!dni) return;
 
-  const url = `${API_URL_PROPIETARIOS}?filter__${FIELD_ID_PROPIETARIO}__equal=${dni}`;
+  const url = `${API_URL_PROPIETARIOS}?user_field_names=true&filter__${FIELD_ID_PROPIETARIO}__equal=${dni}`;
 
   fetch(url, {
     headers: { "Authorization": `Token ${API_TOKEN}` },
@@ -45,7 +45,7 @@ document.getElementById("formBuscarPropietario").addEventListener("submit", func
         document.getElementById("telefono").value = propietario[FIELD_TELEFONO] || "";
         document.getElementById("email").value = propietario[FIELD_EMAIL] || "";
 
-        mostrarMascotasDelPropietario(dni);
+        mostrarMascotasDelPropietario(rowIdPropietarioEncontrado);
       }
     })
     .catch((error) => {
@@ -91,7 +91,7 @@ document.getElementById("formPropietario").addEventListener("submit", function (
     .then((data) => {
       alert("✅ Propietario guardado/modificado correctamente.");
       rowIdPropietarioEncontrado = data.id;
-      mostrarMascotasDelPropietario(idPropietario);
+      mostrarMascotasDelPropietario(rowIdPropietarioEncontrado);
     })
     .catch((error) => {
       console.error("Error:", error);
@@ -99,11 +99,11 @@ document.getElementById("formPropietario").addEventListener("submit", function (
     });
 });
 
-function mostrarMascotasDelPropietario(idPropietario) {
+function mostrarMascotasDelPropietario(propietarioRowId) {
   const contenedor = document.getElementById("mascotasPropietario");
   contenedor.innerHTML = "<p>Buscando mascotas...</p>";
 
-  const url = `${API_URL_PACIENTES}?filter__${FIELD_PROPIETARIO_PACIENTE}__equal=${idPropietario}`;
+  const url = `${API_URL_PACIENTES}?user_field_names=true&filter__${FIELD_PROPIETARIO_PACIENTE}__any=${propietarioRowId}`;
 
   fetch(url, {
     headers: { "Authorization": `Token ${API_TOKEN}` },
@@ -112,7 +112,7 @@ function mostrarMascotasDelPropietario(idPropietario) {
     .then((data) => {
       contenedor.innerHTML = "";
 
-      if (data.count === 0) {
+      if (!data.results || data.results.length === 0) {
         contenedor.innerHTML = "<p>Este propietario aún no tiene mascotas registradas.</p>";
       } else {
         data.results.forEach((paciente) => {
@@ -129,7 +129,7 @@ function mostrarMascotasDelPropietario(idPropietario) {
       const btnAgregar = document.getElementById("btnAgregarMascota");
       btnAgregar.style.display = "inline-block";
       btnAgregar.onclick = () => {
-        window.location.href = `pacientes.html?nuevo=${idPropietario}`;
+        window.location.href = `pacientes.html?nuevo=${document.getElementById("idPropietario").value.trim()}`;
       };
 
     })
