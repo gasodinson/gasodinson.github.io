@@ -1,6 +1,10 @@
 const API_TOKEN = 'WWwHg03JkIGjxAzIMppFEMr73zYDX2Up';
 const TABLE_ID = 580424;
 const FIELD_ID_DNI = 4675567;
+const FIELD_ID_NOMBRE = 4675568;
+const FIELD_ID_DOMICILIO = 4675569;
+const FIELD_ID_TELEFONO = 4675570;
+const FIELD_ID_EMAIL = 4675571;
 const API_URL = `https://api.baserow.io/api/database/rows/table/${TABLE_ID}/`;
 
 document.getElementById('propietarioForm').addEventListener('submit', guardarPropietario);
@@ -20,10 +24,10 @@ async function buscarPropietario() {
 
     if (row) {
       document.getElementById('dni').value = row[`field_${FIELD_ID_DNI}`] || '';
-      document.getElementById('nombre').value = row.Nombre || '';
-      document.getElementById('domicilio').value = row.Domicilio || '';
-      document.getElementById('telefono').value = row.Telefono || '';
-      document.getElementById('email').value = row.Email || '';
+      document.getElementById('nombre').value = row[`field_${FIELD_ID_NOMBRE}`] || '';
+      document.getElementById('domicilio').value = row[`field_${FIELD_ID_DOMICILIO}`] || '';
+      document.getElementById('telefono').value = row[`field_${FIELD_ID_TELEFONO}`] || '';
+      document.getElementById('email').value = row[`field_${FIELD_ID_EMAIL}`] || '';
       document.getElementById('dni').readOnly = true;
       document.getElementById('propietarioForm').setAttribute('data-row-id', row.id);
     } else {
@@ -44,10 +48,10 @@ async function guardarPropietario(evento) {
 
   const datos = {
     [`field_${FIELD_ID_DNI}`]: document.getElementById('dni').value,
-    Nombre: document.getElementById('nombre').value,
-    Domicilio: document.getElementById('domicilio').value,
-    Telefono: document.getElementById('telefono').value,
-    Email: document.getElementById('email').value
+    [`field_${FIELD_ID_NOMBRE}`]: document.getElementById('nombre').value,
+    [`field_${FIELD_ID_DOMICILIO}`]: document.getElementById('domicilio').value,
+    [`field_${FIELD_ID_TELEFONO}`]: document.getElementById('telefono').value,
+    [`field_${FIELD_ID_EMAIL}`]: document.getElementById('email').value
   };
 
   try {
