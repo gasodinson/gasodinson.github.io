@@ -1,99 +1,81 @@
-const BASE_URL_PROPIETARIOS = 'https://api.baserow.io/api/database/rows/table_ID_PROPIETARIOS/';
-const BASE_URL_PACIENTES = 'https://api.baserow.io/api/database/rows/table_ID_PACIENTES/';
-const TOKEN = 'WWwHg03JkIGjxAzIMppFEMr73zYDX2Up';
+const API_TOKEN = 'WWwHg03JkIGjxAzIMppFEMr73zYDX2Up';
+const BASE_ID = '243621';
+const TABLE_ID = '580424';
+const API_URL = `https://api.baserow.io/api/database/rows/table/${TABLE_ID}/`;
 
-document.addEventListener('DOMContentLoaded', () => {
-  const formulario = document.getElementById('formularioPropietario');
-
-  formulario.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    await guardarPropietario();
-  });
-});
+document.getElementById('propietarioForm').addEventListener('submit', guardarPropietario);
 
 async function buscarPropietario() {
-  const IDPropietarioBuscado = document.getElementById('dniBusqueda').value;
+  const dniBuscar = document.getElementById('buscarDNI').value;
 
-  const response = await fetch(`${BASE_URL_PROPIETARIOS}?user_field_names=true`, {
-    headers: {
-      Authorization: `Token ${TOKEN}`
+  try {
+    const respuesta = await fetch(`${API_URL}?user_field_names=true&filter__IDPropietarios__equal=${dniBuscar}`, {
+      headers: {
+        Authorization: `Token ${API_TOKEN}`
+      }
+    });
+
+    const data = await respuesta.json();
+    const row = data?.results?.[0];
+
+    if (row) {
+      document.getElementById('dni').value = row.IDPropietarios;
+      document.getElementById('nombre').value = row.Nombre || '';
+      document.getElementById('domicilio').value = row.Domicilio || '';
+      document.getElementById('telefono').value = row.Telefono || '';
+      document.getElementById('email').value = row.Email || '';
+      document.getElementById('dni').readOnly = true;
+      document.getElementById('propietarioForm').setAttribute('data-row-id', row.id);
+    } else {
+      alert('No se encontró un propietario con ese DNI.');
+      document.getElementById('propietarioForm').removeAttribute('data-row-id');
+      limpiarFormulario();
+      document.getElementById('dni').value = dniBuscar;
+      document.getElementById('dni').readOnly = false;
     }
-  });
-
-  const data = await response.json();
-  const propietario = data.results.find(p => p.IDPropietario === IDPropietarioBuscado);
-
-  if (propietario) {
-    document.getElementById('dni').value = propietario.IDPropietario;
-    document.getElementById('nombre').value = propietario.Nombre;
-    document.getElementById('telefono').value = propietario.Telefono;
-    document.getElementById('email').value = propietario.Email;
-    document.getElementById('formularioPropietario').dataset.id = propietario.id;
-
-    mostrarMascotas(propietario.id);
-  } else {
-    alert('Propietario no encontrado. Podés cargarlo como nuevo.');
-    document.getElementById('formularioPropietario').reset();
-    document.getElementById('dni').value = IDPropietarioBuscado;
-    document.getElementById('formularioPropietario').dataset.id = '';
-    document.getElementById('mascotasDelPropietario').innerHTML = '';
+  } catch (error) {
+    console.error('Error al buscar el propietario:', error);
   }
 }
 
-// Exponemos la función para que el botón onclick la pueda usar
-window.buscarPropietario = buscarPropietario;
-
-async function guardarPropietario() {
-  const IDPropietario = document.getElementById('dni').value;
-  const nombre = document.getElementById('nombre').value;
-  const telefono = document.getElementById('telefono').value;
-  const email = document.getElementById('email').value;
-  const idExistente = document.getElementById('formularioPropietario').dataset.id;
-
+async function guardarPropietario(evento) {
+  evento.preventDefault();
+  const rowId = document.getElementById('propietarioForm').getAttribute('data-row-id');
   const datos = {
-    IDPropietario: IDPropietario,
-    Nombre: nombre,
-    Telefono: telefono,
-    Email: email
+    IDPropietarios: document.getElementById('dni').value,
+    Nombre: document.getElementById('nombre').value,
+    Domicilio: document.getElementById('domicilio').value,
+    Telefono: document.getElementById('telefono').value,
+    Email: document.getElementById('email').value
   };
 
-  const url = idExistente
-    ? `${BASE_URL_PROPIETARIOS}${idExistente}/`
-    : BASE_URL_PROPIETARIOS;
+  try {
+    const respuesta = await fetch(rowId ? `${API_URL}${rowId}/` : API_URL, {
+      method: rowId ? 'PATCH' : 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Token ${API_TOKEN}`
+      },
+      body: JSON.stringify(datos)
+    });
 
-  const metodo = idExistente ? 'PATCH' : 'POST';
-
-  const response = await fetch(url, {
-    method: metodo,
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Token ${TOKEN}`
-    },
-    body: JSON.stringify(datos)
-  });
-
-  if (response.ok) {
-    alert('Propietario guardado correctamente.');
-    document.getElementById('formularioPropietario').reset();
-    document.getElementById('formularioPropietario').dataset.id = '';
-    document.getElementById('mascotasDelPropietario').innerHTML = '';
-  } else {
-    alert('Error al guardar el propietario.');
+    if (respuesta.ok) {
+      alert(rowId ? 'Propietario actualizado correctamente' : 'Propietario agregado correctamente');
+      document.getElementById('propietarioForm').removeAttribute('data-row-id');
+      limpiarFormulario();
+      document.getElementById('dni').readOnly = false;
+    } else {
+      alert('Hubo un error al guardar los datos.');
+    }
+  } catch (error) {
+    console.error('Error al guardar el propietario:', error);
   }
 }
 
-async function mostrarMascotas(idPropietario) {
-  const response = await fetch(`${BASE_URL_PACIENTES}?user_field_names=true`, {
-    headers: {
-      Authorization: `Token ${TOKEN}`
-    }
-  });
-
-  const data = await response.json();
-  const mascotas = data.results.filter(p => p.Propietario?.includes(idPropietario));
-
-  const contenedor = document.getElementById('mascotasDelPropietario');
-  contenedor.innerHTML = mascotas.length
-    ? mascotas.map(m => `🐾 ${m.Nombre} - ${m.Especie || 'Sin especie'}`).join('<br>')
-    : 'Este propietario no tiene mascotas registradas.';
+function limpiarFormulario() {
+  document.getElementById('dni').value = '';
+  document.getElementById('nombre').value = '';
+  document.getElementById('domicilio').value = '';
+  document.getElementById('telefono').value = '';
+  document.getElementById('email').value = '';
 }
