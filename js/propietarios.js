@@ -20,6 +20,7 @@ async function buscarPropietario() {
     });
 
     const data = await respuesta.json();
+    console.log('Datos recibidos:', data);
     const row = data?.results?.[0];
 
     if (row) {
