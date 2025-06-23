@@ -3,26 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Propietarios - Veterinaria Sandi</title>
+  <title>Veterinaria Sandi - Propietarios</title>
   <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
+  <header>
+    <h1>Propietarios</h1>
+  </header>
 
-  <h1>Propietarios</h1>
+  <main>
+    <form id="formBuscarPropietario">
+      <label for="buscarIdPropietario">Buscar por DNI</label><br>
+      <input type="text" id="buscarIdPropietario" name="buscarIdPropietario" required><br><br>
+      <button class="button" type="submit">Buscar Propietario</button>
+    </form>
 
-  <form id="formPropietario">
-    <input type="number" id="idPropietario" placeholder="DNI (ID)" step="any" required><br><br>
-    <input type="text" id="nombre" placeholder="Nombre completo" required><br><br>
-    <input type="text" id="domicilio" placeholder="Domicilio"><br><br>
-    <input type="tel" id="telefono" placeholder="Teléfono"><br><br>
-    <input type="email" id="email" placeholder="Email"><br><br>
+    <hr style="margin:20px 0;">
 
-    <button type="submit" class="button">Agregar Propietario</button>
-  </form>
+    <form id="formPropietario">
+      <label for="idPropietario">DNI</label><br>
+      <input type="number" id="idPropietario" name="idPropietario" min="0" step="1" required><br><br>
 
-  <br>
-  <a href="index.html" class="button">Volver al inicio</a>
+      <label for="nombre">Nombre y Apellido</label><br>
+      <input type="text" id="nombre" name="nombre" required><br><br>
 
-  <script src="js/propietarios.js"></script>
+      <label for="domicilio">Domicilio</label><br>
+      <input type="text" id="domicilio" name="domicilio"><br><br>
+
+      <label for="telefono">Teléfono</label><br>
+      <input type="tel" id="telefono" name="telefono"><br><br>
+
+      <label for="email">Email</label><br>
+      <input type="email" id="email" name="email"><br><br>
+
+      <button class="button" type="submit">Guardar / Modificar Propietario</button>
+    </form>
+
+    <br>
+    <button class="button" onclick="window.location.href='index.html'">Volver al inicio</button>
+  </main>
+
+  <script src="js/propietarios_edit.js"></script>
 </body>
 </html>

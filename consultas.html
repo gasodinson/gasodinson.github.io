@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Veterinaria Sandi - Consultas</title>
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <header>
+    <h1>Registrar Consulta</h1>
+  </header>
+
+  <main>
+    <form id="formConsulta">
+      <label for="paciente">ID Consulta</label><br>
+      <input type="number" id="consulta" name="consulta" min="0" step="1" required><br><br>
+
+      <label for="paciente">ID Paciente</label><br>
+      <input type="number" id="paciente" name="paciente" min="0" step="1" required><br><br>
+
+      <label for="fecha">Fecha</label><br>
+      <input type="date" id="fecha" name="fecha" required><br><br>
+
+      <label for="motivoConsulta">Motivo de Consulta</label><br>
+      <input type="text" id="motivoConsulta" name="motivoConsulta" required><br><br>
+
+      <label for="anamnesis">Anamnesis</label><br>
+      <textarea id="anamnesis" name="anamnesis" rows="3"></textarea><br><br>
+
+      <label for="ecografiaRX">Ecografía / RX</label><br>
+      <input type="text" id="ecografiaRX" name="ecografiaRX"><br><br>
+
+      <label for="temperatura">Temperatura (°C)</label><br>
+      <input type="number" id="temperatura" name="temperatura" step="any"><br><br>
+
+      <label for="glucemia">Glucemia (mg/dl)</label><br>
+      <input type="number" id="glucemia" name="glucemia" step="any"><br><br>
+
+      <label for="diagPresuntivo">Diagnóstico Presuntivo</label><br>
+      <input type="text" id="diagPresuntivo" name="diagPresuntivo"><br><br>
+
+      <label for="tratamiento">Tratamiento</label><br>
+      <textarea id="tratamiento" name="tratamiento" rows="2"></textarea><br><br>
+
+      <label for="notas">Notas</label><br>
+      <textarea id="notas" name="notas" rows="2"></textarea><br><br>
+
+      <button class="button" type="submit">Agregar Consulta</button>
+    </form>
+
+    <br>
+    <button class="button" onclick="window.location.href='index.html'">Volver al inicio</button>
+  </main>
+
+  <script src="js/consultas.js"></script>
+</body>
+</html>
