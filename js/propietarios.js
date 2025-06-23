@@ -1,6 +1,6 @@
 const API_TOKEN = 'WWwHg03JkIGjxAzIMppFEMr73zYDX2Up';
-const BASE_ID = '243621';
-const TABLE_ID = '580424';
+const BASE_ID = '243621';  // Reemplazar si lo necesitás más adelante
+const TABLE_ID = '580424';  // Reemplazalo por el ID real
 const API_URL = `https://api.baserow.io/api/database/rows/table/${TABLE_ID}/`;
 
 document.getElementById('propietarioForm').addEventListener('submit', guardarPropietario);
@@ -9,7 +9,7 @@ async function buscarPropietario() {
   const dniBuscar = document.getElementById('buscarDNI').value;
 
   try {
-    const respuesta = await fetch(`${API_URL}?user_field_names=true&filter__IDPropietarios__equal=${dniBuscar}`, {
+    const respuesta = await fetch(`${API_URL}?user_field_names=true&filter__IDPropietario__equal=${dniBuscar}`, {
       headers: {
         Authorization: `Token ${API_TOKEN}`
       }
@@ -19,7 +19,7 @@ async function buscarPropietario() {
     const row = data?.results?.[0];
 
     if (row) {
-      document.getElementById('dni').value = row.IDPropietarios;
+      document.getElementById('dni').value = row.IDPropietario || '';
       document.getElementById('nombre').value = row.Nombre || '';
       document.getElementById('domicilio').value = row.Domicilio || '';
       document.getElementById('telefono').value = row.Telefono || '';
@@ -42,7 +42,7 @@ async function guardarPropietario(evento) {
   evento.preventDefault();
   const rowId = document.getElementById('propietarioForm').getAttribute('data-row-id');
   const datos = {
-    IDPropietarios: document.getElementById('dni').value,
+    IDPropietario: document.getElementById('dni').value,
     Nombre: document.getElementById('nombre').value,
     Domicilio: document.getElementById('domicilio').value,
     Telefono: document.getElementById('telefono').value,
