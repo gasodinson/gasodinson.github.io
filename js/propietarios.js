@@ -21,7 +21,7 @@ document.getElementById("formBuscarPropietario").addEventListener("submit", func
   e.preventDefault();
 
   const dni = document.getElementById("buscarIdPropietario").value.trim();
-  if (!dni) return;
+
 
   const url = `${API_URL_PROPIETARIOS}?user_field_names=true&filter__${FIELD_ID_PROPIETARIO}__equal=${dni}`;
 
