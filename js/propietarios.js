@@ -19,7 +19,7 @@ let rowIdPropietarioEncontrado = null;
 
 document.getElementById("formBuscarPropietario").addEventListener("submit", function (e) {
   e.preventDefault();
-  const dni = document.getElementById("buscarIdPropietario").value.trim();
+  const dni = document.getElementById("buscarIDPropietario").value.trim();
   if (!dni) return;
 
   const url = `${API_URL_PROPIETARIOS}?user_field_names=true&filter__${FIELD_ID_PROPIETARIO}__equal=${dni}`;
@@ -33,17 +33,17 @@ document.getElementById("formBuscarPropietario").addEventListener("submit", func
         alert("No se encontró ningún propietario con ese DNI.");
         rowIdPropietarioEncontrado = null;
         document.getElementById("formPropietario").reset();
-        document.getElementById("idPropietario").value = dni;
+        document.getElementById("IDPropietario").value = dni;
         document.getElementById("mascotasPropietario").innerHTML = "";
         document.getElementById("btnAgregarMascota").style.display = "none";
       } else {
         const propietario = data.results[0];
         rowIdPropietarioEncontrado = propietario.id;
-        document.getElementById("idPropietario").value = propietario[FIELD_ID_PROPIETARIO];
-        document.getElementById("nombre").value = propietario[FIELD_NOMBRE] || "";
-        document.getElementById("domicilio").value = propietario[FIELD_DOMICILIO] || "";
-        document.getElementById("telefono").value = propietario[FIELD_TELEFONO] || "";
-        document.getElementById("email").value = propietario[FIELD_EMAIL] || "";
+        document.getElementById("IDPropietario").value = propietario[FIELD_ID_PROPIETARIO];
+        document.getElementById("Nombre").value = propietario[FIELD_NOMBRE] || "";
+        document.getElementById("Domicilio").value = propietario[FIELD_DOMICILIO] || "";
+        document.getElementById("Telefono").value = propietario[FIELD_TELEFONO] || "";
+        document.getElementById("Email").value = propietario[FIELD_EMAIL] || "";
 
         mostrarMascotasDelPropietario(rowIdPropietarioEncontrado);
       }
@@ -57,18 +57,18 @@ document.getElementById("formBuscarPropietario").addEventListener("submit", func
 document.getElementById("formPropietario").addEventListener("submit", function (e) {
   e.preventDefault();
 
-  const idPropietario = document.getElementById("idPropietario").value.trim();
-  const nombre = document.getElementById("nombre").value.trim();
-  const domicilio = document.getElementById("domicilio").value.trim();
-  const telefono = document.getElementById("telefono").value.trim();
-  const email = document.getElementById("email").value.trim();
+  const IDPropietario = document.getElementById("IDPropietario").value.trim();
+  const Nombre = document.getElementById("Nombre").value.trim();
+  const Domicilio = document.getElementById("Domicilio").value.trim();
+  const Telefono = document.getElementById("Telefono").value.trim();
+  const Email = document.getElementById("Email").value.trim();
 
   const payload = JSON.stringify({
-    [FIELD_ID_PROPIETARIO]: idPropietario,
-    [FIELD_NOMBRE]: nombre,
-    [FIELD_DOMICILIO]: domicilio,
-    [FIELD_TELEFONO]: telefono,
-    [FIELD_EMAIL]: email,
+    [FIELD_ID_PROPIETARIO]: IDPropietario,
+    [FIELD_NOMBRE]: Nombre,
+    [FIELD_DOMICILIO]: Domicilio,
+    [FIELD_TELEFONO]: Telefono,
+    [FIELD_EMAIL]: Email,
   });
 
   let url = API_URL_PROPIETARIOS;
@@ -99,11 +99,11 @@ document.getElementById("formPropietario").addEventListener("submit", function (
     });
 });
 
-function mostrarMascotasDelPropietario(propietarioRowId) {
+function mostrarMascotasDelPropietario(propietarioRowID) {
   const contenedor = document.getElementById("mascotasPropietario");
   contenedor.innerHTML = "<p>Buscando mascotas...</p>";
 
-  const url = `${API_URL_PACIENTES}?user_field_names=true&filter__${FIELD_PROPIETARIO_PACIENTE}__any=${propietarioRowId}`;
+  const url = `${API_URL_PACIENTES}?user_field_names=true&filter__${FIELD_PROPIETARIO_PACIENTE}__any=${propietarioRowID}`;
 
   fetch(url, {
     headers: { "Authorization": `Token ${API_TOKEN}` },
@@ -120,7 +120,7 @@ function mostrarMascotasDelPropietario(propietarioRowId) {
           btn.className = "button";
           btn.textContent = `${paciente[FIELD_NOMBRE_PACIENTE]} (${paciente[FIELD_IDPACIENTE]})`;
           btn.onclick = () => {
-            window.location.href = `pacientes.html?idPaciente=${paciente.id}`;
+            window.location.href = `pacientes.html?IDPaciente=${paciente.id}`;
           };
           contenedor.appendChild(btn);
         });
@@ -129,7 +129,7 @@ function mostrarMascotasDelPropietario(propietarioRowId) {
       const btnAgregar = document.getElementById("btnAgregarMascota");
       btnAgregar.style.display = "inline-block";
       btnAgregar.onclick = () => {
-        window.location.href = `pacientes.html?nuevo=${document.getElementById("idPropietario").value.trim()}`;
+        window.location.href = `pacientes.html?nuevo=${document.getElementById("IDPropietario").value.trim()}`;
       };
 
     })
